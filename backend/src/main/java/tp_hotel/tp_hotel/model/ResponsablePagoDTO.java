@@ -12,10 +12,14 @@ public class ResponsablePagoDTO {
     private Integer id;
     private String razonSocial;
     private String cuit;
-    
+    private String telefono;
+
     public ResponsablePagoDTO(ResponsablePago responsablePago){
         this.id = responsablePago.getId();
         this.razonSocial = responsablePago.getRazonSocial();
         this.cuit = responsablePago.getCUIT();
+        if (responsablePago instanceof PersonaJuridica pj) {
+            this.telefono = pj.getTelefono();
+        }
     }
 }

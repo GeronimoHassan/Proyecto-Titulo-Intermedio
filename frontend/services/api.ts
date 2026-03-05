@@ -133,6 +133,14 @@ export const responsablePagoService = {
     const response = await api.post('/responsablePago/personaJuridica', persona);
     return response.data;
   },
+  getPersonaJuridicaById: async (id: number) => {
+    const response = await api.get<PersonaJuridicaDTO>(`/responsablePago/personaJuridica/${id}`);
+    return response.data;
+  },
+  modificarPersonaJuridica: async (id: number, persona: PersonaJuridicaDTO) => {
+    const response = await api.put<PersonaJuridicaDTO>(`/responsablePago/personaJuridica/${id}`, persona);
+    return response.data;
+  },
   delete: async (id: number) => {
     try {
       const response = await api.delete(`/responsablePago/${id}`);
@@ -182,6 +190,17 @@ export const notaCreditoService = {
     });
     return response.data;
   }
+};
+
+export const listadosService = {
+  listarCheques: async (desde: string, hasta: string) => {
+    const response = await api.get('/listados/cheques', { params: { desde, hasta } });
+    return response.data;
+  },
+  listarIngresos: async (desde: string, hasta: string) => {
+    const response = await api.get('/listados/ingresos', { params: { desde, hasta } });
+    return response.data;
+  },
 };
 
 export default api;

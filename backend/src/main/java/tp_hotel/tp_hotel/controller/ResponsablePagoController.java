@@ -24,6 +24,7 @@ import tp_hotel.tp_hotel.model.ResponsablePago;
 import tp_hotel.tp_hotel.model.ResponsablePagoDTO;
 import tp_hotel.tp_hotel.service.GestorResponsablePago;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -67,6 +68,30 @@ public class ResponsablePagoController {
         }
     }
     
+    @GetMapping("/personaJuridica/{id}")
+    public ResponseEntity<?> buscarPersonaJuridicaPorId(@PathVariable Integer id) {
+        try {
+            PersonaJuridica pj = gestorResponsablePago.buscarPersonaJuridicaPorId(id);
+            return ResponseEntity.ok(new PersonaJuridicaDTO(pj));
+        } catch (ResponsablePagoNoExistenteException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/personaJuridica/{id}")
+    public ResponseEntity<?> modificarPersonaJuridica(@PathVariable Integer id, @Valid @RequestBody PersonaJuridicaDTO personaJuridicaDTO) {
+        try {
+            PersonaJuridica pj = gestorResponsablePago.modificarPersonaJuridica(id, personaJuridicaDTO);
+            return ResponseEntity.ok(new PersonaJuridicaDTO(pj));
+        } catch (ResponsablePagoNoExistenteException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (CuitYaExistenteException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
+
     @GetMapping("/personaJuridica")
     public ResponseEntity<?> buscarPersonaJuridica(@Valid BusquedaResponsablePagoDTO busquedaResponsableDTO) {
         try{

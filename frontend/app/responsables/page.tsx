@@ -8,7 +8,7 @@ import { ResponsablePagoDTO } from '@/types';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/Input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import { Plus, Search, Trash2 } from 'lucide-react';
+import { Plus, Search, Trash2, Pencil } from 'lucide-react';
 import AlertModal from '@/components/ui/AlertModal';
 import ConfirmationModal from '@/components/ui/ConfirmationModal';
 
@@ -195,6 +195,7 @@ export default function ResponsablesPage() {
               <tr className="border-b border-slate-200 transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
                 <th className="h-12 px-4 text-left align-middle font-bold text-slate-900">Razón Social</th>
                 <th className="h-12 px-4 text-left align-middle font-bold text-slate-900">CUIT</th>
+                <th className="h-12 px-4 text-left align-middle font-bold text-slate-900">Teléfono</th>
                 <th className="h-12 px-4 text-right align-middle font-bold text-slate-900">Acciones</th>
               </tr>
             </thead>
@@ -216,9 +217,18 @@ export default function ResponsablesPage() {
                   <tr key={responsable.id} className="border-b border-slate-200 transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
                     <td className="p-4 align-middle">{responsable.razonSocial}</td>
                     <td className="p-4 align-middle">{responsable.cuit}</td>
+                    <td className="p-4 align-middle">{responsable.telefono || '-'}</td>
                     <td className="p-4 align-middle text-right">
-                      <Button 
-                        variant="ghost" 
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => router.push(`/responsables/${responsable.id}`)}
+                        title="Modificar"
+                      >
+                        <Pencil className="h-4 w-4 text-blue-500" />
+                      </Button>
+                      <Button
+                        variant="ghost"
                         size="sm"
                         onClick={() => handleDeleteClick(responsable.id)}
                         title="Eliminar"

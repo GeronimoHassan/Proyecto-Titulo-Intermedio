@@ -74,7 +74,28 @@ public class GestorResponsablePago {
         return personaFisicaNueva;
     }
 
-    public void modificarResponsable(PersonaJuridica r) {
+    public PersonaJuridica buscarPersonaJuridicaPorId(Integer id) {
+        return personaJuridicaRepository.findById(id)
+                .orElseThrow(() -> new ResponsablePagoNoExistenteException("No se encontró un responsable de pago con id: " + id));
+    }
+
+    public PersonaJuridica modificarPersonaJuridica(Integer id, PersonaJuridicaDTO dto) {
+        PersonaJuridica pj = personaJuridicaRepository.findById(id)
+                .orElseThrow(() -> new ResponsablePagoNoExistenteException("No se encontró un responsable de pago con id: " + id));
+
+        if (!pj.getCUIT().equals(dto.getCuit())) {
+            if (!cuitUnico(dto.getCuit())) {
+                throw new CuitYaExistenteException("El CUIT ingresado ya existe en el sistema.");
+            }
+        }
+
+        pj.setRazonSocial(dto.getRazonSocial());
+        pj.setCuit(dto.getCuit());
+        pj.setTelefono(dto.getTelefono());
+        if (dto.getDireccion() != null) {
+            pj.setDireccion(dto.getDireccion().toEntity());
+        }
+        return personaJuridicaRepository.save(pj);
     }
 
     public ResponsablePago darAltaPersonaJuridica(PersonaJuridica personaJuridica) {

@@ -48,6 +48,12 @@ export default function Navbar() {
             >
               Responsables
             </Link>
+            <Link
+              href="/listados"
+              className="transition-colors hover:text-slate-900 text-slate-600"
+            >
+              Listados
+            </Link>
           </nav>
         </div>
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">

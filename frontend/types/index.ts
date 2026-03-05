@@ -178,6 +178,7 @@ export interface ResponsablePagoDTO {
   id: number;
   razonSocial: string;
   cuit: string;
+  telefono?: string;
 }
 
 export interface BusquedaFacturaResponsableDTO {
