@@ -11,7 +11,7 @@ public class ChequeEstrategia implements EstrategiaPago{
         PagoCheque cheque = (PagoCheque) tipoPago;
 
         if(cheque.getNumero() == null || cheque.getBanco() == null ||
-         cheque.getFechaCobro() == null || cheque.getPlaza() == null || cheque.getImporte() == null){
+         cheque.getFechaCobro() == null || cheque.getImporte() == null){
             return false;
         }
 

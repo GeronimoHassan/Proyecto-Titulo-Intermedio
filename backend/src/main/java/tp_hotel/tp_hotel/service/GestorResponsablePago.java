@@ -16,6 +16,7 @@ import tp_hotel.tp_hotel.model.BusquedaResponsablePagoDTO;
 import tp_hotel.tp_hotel.model.Huesped;
 import tp_hotel.tp_hotel.model.PersonaFisica;
 import tp_hotel.tp_hotel.model.PersonaJuridica;
+import tp_hotel.tp_hotel.model.PersonaJuridicaDTO;
 import tp_hotel.tp_hotel.model.ResponsablePago;
 import tp_hotel.tp_hotel.repository.HuespedRepository;
 import tp_hotel.tp_hotel.repository.PersonaFisicaRepository;

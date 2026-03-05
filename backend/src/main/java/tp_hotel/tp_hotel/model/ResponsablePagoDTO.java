@@ -13,6 +13,7 @@ public class ResponsablePagoDTO {
     private String razonSocial;
     private String cuit;
     private String telefono;
+    private String tipo;
 
     public ResponsablePagoDTO(ResponsablePago responsablePago){
         this.id = responsablePago.getId();
@@ -20,6 +21,9 @@ public class ResponsablePagoDTO {
         this.cuit = responsablePago.getCUIT();
         if (responsablePago instanceof PersonaJuridica pj) {
             this.telefono = pj.getTelefono();
+            this.tipo = "JURIDICA";
+        } else {
+            this.tipo = "FISICA";
         }
     }
 }

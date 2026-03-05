@@ -267,9 +267,10 @@ export default function DetallePagoPage() {
       await pagoService.pagar(idFactura, pagosAEnviar);
       showAlert('Éxito', 'Pago registrado exitosamente', 'default');
       
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      showAlert('Error', 'Error al procesar el pago', 'danger');
+      const msg = err?.response?.data || err?.message || 'Error al procesar el pago';
+      showAlert('Error', typeof msg === 'string' ? msg : JSON.stringify(msg), 'danger');
     } finally {
       setLoading(false);
     }
@@ -454,6 +455,15 @@ export default function DetallePagoPage() {
                     className={formErrors.bancoEmisor ? 'border-red-500' : ''}
                   />
                   {formErrors.bancoEmisor && <p className="text-red-500 text-sm mt-1">{formErrors.bancoEmisor}</p>}
+                </div>
+                <div>
+                  <Label htmlFor="plaza">Plaza (opcional)</Label>
+                  <Input
+                    id="plaza"
+                    name="plaza"
+                    value={nuevoPago.plaza || ''}
+                    onChange={handleInputChange}
+                  />
                 </div>
                 <div>
                   <Label htmlFor="fechaCobro">Fecha de Cobro</Label>

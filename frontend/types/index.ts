@@ -179,6 +179,7 @@ export interface ResponsablePagoDTO {
   razonSocial: string;
   cuit: string;
   telefono?: string;
+  tipo?: 'FISICA' | 'JURIDICA';
 }
 
 export interface BusquedaFacturaResponsableDTO {

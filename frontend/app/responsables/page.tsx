@@ -219,14 +219,16 @@ export default function ResponsablesPage() {
                     <td className="p-4 align-middle">{responsable.cuit}</td>
                     <td className="p-4 align-middle">{responsable.telefono || '-'}</td>
                     <td className="p-4 align-middle text-right">
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => router.push(`/responsables/${responsable.id}`)}
-                        title="Modificar"
-                      >
-                        <Pencil className="h-4 w-4 text-blue-500" />
-                      </Button>
+                      {responsable.tipo === 'JURIDICA' && (
+                        <Button
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => router.push(`/responsables/${responsable.id}`)}
+                          title="Modificar"
+                        >
+                          <Pencil className="h-4 w-4 text-blue-500" />
+                        </Button>
+                      )}
                       <Button
                         variant="ghost"
                         size="sm"
