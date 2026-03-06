@@ -218,10 +218,10 @@ export default function NuevoResponsablePagoPage() {
         isOpen={showSuccessModal}
         onClose={() => {
             setShowSuccessModal(false);
-            
+            router.push('/responsables');
         }}
-        title="Éxito"
-        message="Responsable de pago creado exitosamente."
+        title="Alta Exitosa"
+        message={`La firma ${formData.razonSocial} ha sido satisfactoriamente cargada al sistema.`}
       />
     </div>
   );

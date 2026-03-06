@@ -14,6 +14,16 @@ function ConsumosContent() {
   const estadiaId = searchParams.get('estadiaId');
   const responsableId = searchParams.get('responsableId');
   const habitacion = searchParams.get('habitacion');
+  const exitTime = searchParams.get('exitTime');
+
+  const lateCheckoutInfo = (() => {
+    if (!exitTime) return null;
+    const [hours, minutes] = exitTime.split(':').map(Number);
+    const totalMinutes = hours * 60 + minutes;
+    if (totalMinutes <= 11 * 60) return null;
+    if (totalMinutes <= 18 * 60) return { tipo: 'medio', label: '50% del costo de la noche', color: 'yellow' };
+    return { tipo: 'completo', label: 'costo de una noche completa', color: 'red' };
+  })();
 
   const [consumos, setConsumos] = useState<ConsumoDTO[]>([]);
   const [selectedConsumoIds, setSelectedConsumoIds] = useState<number[]>([]);
@@ -150,6 +160,12 @@ function ConsumosContent() {
           <CardTitle>Seleccionar Consumos</CardTitle>
         </CardHeader>
         <CardContent>
+          {lateCheckoutInfo && (
+            <div className={`mb-4 p-3 rounded-md border text-sm ${lateCheckoutInfo.color === 'red' ? 'bg-red-50 border-red-300 text-red-700' : 'bg-yellow-50 border-yellow-300 text-yellow-700'}`}>
+              <strong>Late Checkout ({exitTime} hs):</strong> Corresponde aplicar un cargo adicional equivalente al {lateCheckoutInfo.label}. Recuerde agregarlo como consumo antes de generar la factura.
+            </div>
+          )}
+
           {loading ? (
             <div className="text-center py-10">Cargando consumos...</div>
           ) : (

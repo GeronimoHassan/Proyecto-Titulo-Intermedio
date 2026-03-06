@@ -29,7 +29,9 @@ export default function LoginPage() {
     }
 
     try {
-      await authService.login({ username, password });
+      const data = await authService.login({ username, password });
+      localStorage.setItem('isLoggedIn', 'true');
+      localStorage.setItem('username', username);
       router.push('/huespedes');
     } catch (err: any) {
       setError('Credenciales inválidas o error en el servidor');

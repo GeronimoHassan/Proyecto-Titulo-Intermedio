@@ -203,6 +203,11 @@ const RoomGrid: React.FC<RoomGridProps> = ({ mode }) => {
     }
 
     //Logica para reservar
+    if (mode === 'reserve' && status !== EstadoHabitacion.DISPONIBLE) {
+      setError('Las habitaciones seleccionadas no están disponibles para el período seleccionado.');
+      return;
+    }
+
     let canSelect = false;
     if (mode === 'reserve' && status === EstadoHabitacion.DISPONIBLE) {
       canSelect = true;

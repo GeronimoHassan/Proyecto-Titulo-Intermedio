@@ -22,7 +22,7 @@ public class EstadiaDTO {
 
     @NotNull
     private LocalDate checkOut;
-    
+
     @NotNull @Size(min = 1, max = 2)
     private String numeroHabitacion;
 
@@ -32,12 +32,15 @@ public class EstadiaDTO {
 
     private List<Integer> idsConsumos = new ArrayList<>();
 
+    private Float costoNoche;
+
     public EstadiaDTO(Estadia estadia) {
         this.id = estadia.getId();
         this.checkIn = estadia.getCheckIn();
         this.checkOut = estadia.getCheckOut();
         if (estadia.getHabitacion() != null) {
             this.numeroHabitacion = estadia.getHabitacion().getNumero();
+            this.costoNoche = estadia.getHabitacion().getCostoNoche();
         }
         if (estadia.getHuespedTitular() != null) {
             this.idHuespedTitular = estadia.getHuespedTitular().getId();

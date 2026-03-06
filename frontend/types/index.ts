@@ -132,7 +132,8 @@ export interface EstadiaDTO {
   idReserva?: number;
   nombreHuesped?: string;
   apellidoHuesped?: string;
-  consumos?: any[]; 
+  consumos?: any[];
+  costoNoche?: number;
 }
 
 export interface FacturaDTO {

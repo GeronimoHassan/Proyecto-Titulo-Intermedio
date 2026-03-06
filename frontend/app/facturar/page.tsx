@@ -29,6 +29,24 @@ export default function FacturarPage() {
   const [selectedConsumoIds, setSelectedConsumoIds] = useState<number[]>([]);
   const [pdfUrl, setPdfUrl] = useState<string | null>(null);
 
+  const getLateCheckoutInfo = (time: string, costoNoche?: number): { tipo: 'normal' | 'medio' | 'completo'; mensaje: string } | null => {
+    if (!time) return null;
+    const [hours, minutes] = time.split(':').map(Number);
+    const totalMinutes = hours * 60 + minutes;
+    const tolerance = 11 * 60; // 11:00 (tolerancia de 1 hora desde las 10:00)
+    const halfDayCutoff = 18 * 60; // 18:00
+
+    if (totalMinutes <= tolerance) return null;
+
+    if (totalMinutes <= halfDayCutoff) {
+      const extra = costoNoche ? ` (cargo adicional: $${(costoNoche * 0.5).toFixed(2)})` : '';
+      return { tipo: 'medio', mensaje: `Late checkout detectado (${time} hs): se aplicará un cargo del 50% del costo de la noche${extra}.` };
+    }
+
+    const extra = costoNoche ? ` (cargo adicional: $${costoNoche.toFixed(2)})` : '';
+    return { tipo: 'completo', mensaje: `Late checkout detectado (${time} hs): se aplicará el cargo de una noche completa${extra}.` };
+  };
+
   const roomInputRef = useRef<HTMLInputElement>(null);
   const timeInputRef = useRef<HTMLInputElement>(null);
 
@@ -127,7 +145,12 @@ export default function FacturarPage() {
 
   const handleThirdPartySelect = (payer: PersonaJuridicaDTO) => {
     if (payer.id !== undefined && payer.id !== null && estadia?.id) {
-        router.push(`/facturar/consumos?responsableId=${payer.id}&estadiaId=${estadia.id}`);
+        const params = new URLSearchParams({
+          responsableId: String(payer.id),
+          estadiaId: String(estadia.id),
+        });
+        if (exitTime) params.set('exitTime', exitTime);
+        router.push(`/facturar/consumos?${params.toString()}`);
     } else {
         setError('El responsable seleccionado no tiene un ID válido o no hay estadía seleccionada.');
         setShowErrorModal(true);
@@ -138,7 +161,13 @@ export default function FacturarPage() {
     if (selectedPayerId && estadia?.id) {
         try {
             const responsableId = await responsablePagoService.darAltaPersonaFisica(selectedPayerId);
-            router.push(`/facturar/consumos?responsableId=${responsableId}&estadiaId=${estadia.id}&habitacion=${estadia.numeroHabitacion}`);
+            const params = new URLSearchParams({
+              responsableId: String(responsableId),
+              estadiaId: String(estadia.id),
+              habitacion: estadia.numeroHabitacion,
+            });
+            if (exitTime) params.set('exitTime', exitTime);
+            router.push(`/facturar/consumos?${params.toString()}`);
         } catch (err: any) {
             setError(err.response?.data || 'Error al asignar responsable de pago');
             setShowErrorModal(true);
@@ -189,6 +218,16 @@ export default function FacturarPage() {
               {loading ? 'Buscando...' : 'Buscar'}
             </Button>
           </form>
+
+          {exitTime && (() => {
+            const info = getLateCheckoutInfo(exitTime, estadia?.costoNoche);
+            if (!info) return null;
+            return (
+              <div className={`mt-4 p-3 rounded-md border text-sm ${info.tipo === 'completo' ? 'bg-red-50 border-red-300 text-red-700' : 'bg-yellow-50 border-yellow-300 text-yellow-700'}`}>
+                <strong>Aviso:</strong> {info.mensaje}
+              </div>
+            );
+          })()}
 
           {estadia && (
             <div className="mt-8 space-y-6 border-t pt-6">

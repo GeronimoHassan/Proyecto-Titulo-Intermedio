@@ -20,6 +20,7 @@ export default function NuevoHuespedPage() {
   
   const [showCancelModal, setShowCancelModal] = useState(false);
   const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [successName, setSuccessName] = useState('');
   
   const tipoDocumentoRef = useRef<HTMLSelectElement>(null);
 
@@ -181,6 +182,7 @@ export default function NuevoHuespedPage() {
       const result = await huespedService.create(dataToSend);
       
       if (result.success) {
+        setSuccessName(`${formData.apellido}, ${formData.nombres}`);
         setShowSuccessModal(true);
       } else if (result.status === 409) {
          const errorData = result.message;
@@ -360,16 +362,37 @@ export default function NuevoHuespedPage() {
         </div>
       </Modal>
 
-      <AlertModal
+      <Modal
         isOpen={showSuccessModal}
         onClose={() => {
           setShowSuccessModal(false);
           router.push('/huespedes');
         }}
-        title="Éxito"
-        message="La operación ha culminado con éxito"
-        variant="primary"
-      />
+        title="Alta Exitosa"
+      >
+        <div className="p-4 space-y-4">
+          <p className="text-slate-700">
+            El huésped <strong>{successName}</strong> ha sido satisfactoriamente cargado al sistema.
+          </p>
+          <p className="text-slate-600">¿Desea cargar otro huésped?</p>
+          <div className="flex justify-end gap-4">
+            <Button variant="outline" onClick={() => { setShowSuccessModal(false); router.push('/huespedes'); }}>
+              No, volver al listado
+            </Button>
+            <Button onClick={() => {
+              setShowSuccessModal(false);
+              setFormData({
+                apellido: '', nombres: '', tipoDocumento: TipoDocumento.DNI, numeroDocumento: '',
+                cuit: '', posicionFrenteAlIVA: IVA.CONSUMIDOR_FINAL, fechaDeNacimiento: '',
+                telefono: '', email: '', ocupacion: '', nacionalidad: '',
+                direccion: { calle: '', numero: '', departamento: '', piso: '', codigoPostal: '', localidad: '', provincia: '', pais: '' },
+              });
+            }}>
+              Sí, cargar otro
+            </Button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }
