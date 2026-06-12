@@ -11,6 +11,7 @@ import tp_hotel.tp_hotel.model.Factura;
 import tp_hotel.tp_hotel.model.Pago;
 import tp_hotel.tp_hotel.model.TipoPago;
 import tp_hotel.tp_hotel.model.TipoPagoDTO;
+import tp_hotel.tp_hotel.repository.FacturaRepository;
 import tp_hotel.tp_hotel.repository.PagoRepository;
 import tp_hotel.tp_hotel.strategy.StrategyFactory;
 import tp_hotel.tp_hotel.exceptions.FacturaPagadaException;
@@ -23,22 +24,30 @@ public class GestorPago{
 
     private final PagoRepository pagoRepository;
     private final GestorFacturacion gestorFacturacion;
-    
+    private final FacturaRepository facturaRepository;
+
     @Autowired
-    public GestorPago(GestorFacturacion gestorFacturacion, PagoRepository pagoRepository) {
+    public GestorPago(GestorFacturacion gestorFacturacion, PagoRepository pagoRepository, FacturaRepository facturaRepository) {
         this.gestorFacturacion = gestorFacturacion;
         this.pagoRepository = pagoRepository;
+        this.facturaRepository = facturaRepository;
     }
 
     public void registrarPago(Factura f, TipoPago p) {
     }
 
     public List<Factura> obtenerFacturasPendientes(int habitacion) {
-        return null;
+        return facturaRepository.findByNumeroHabitacionYEstado(String.valueOf(habitacion), EstadoFactura.PENDIENTE);
     }
 
     public Float calcularVuelto(Float total, List<TipoPago> pagos) {
-        return 0.0f;
+        Float sumaPagos = 0.0f;
+        for (TipoPago pago : pagos) {
+            sumaPagos += pago.getImporte();
+        }
+
+        Float vuelto = sumaPagos - total;
+        return vuelto > 0 ? vuelto : 0.0f;
     }
 
     @Transactional
