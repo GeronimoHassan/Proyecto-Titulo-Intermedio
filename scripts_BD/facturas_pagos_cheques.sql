@@ -73,7 +73,7 @@ INSERT INTO pago (fecha, monto_total, factura_id) VALUES
 ('2026-02-25', 351150.00, 1);
 
 INSERT INTO tipo_pago (importe, metodo_pago, pago_id) VALUES
-(351150.00, 'TARJETA_DEBITO', 1);
+(351150.00, 2, 1);
 
 INSERT INTO pago_tarjeta_debito (id, numero_tarjeta, nombre_titular, fecha_vencimiento, codigo_seguridad) VALUES
 (1, '4517000011112222', 'MONICA FIGUEROA', '2028-06-01', '456');
@@ -83,11 +83,11 @@ INSERT INTO pago (fecha, monto_total, factura_id) VALUES
 ('2026-02-25', 90500.00, 2);
 
 INSERT INTO tipo_pago (importe, metodo_pago, pago_id) VALUES
-(50000.00, 'MONEDA', 2),
-(40500.00, 'CHEQUE', 2);
+(50000.00, 0, 2),
+(40500.00, 3, 2);
 
 INSERT INTO pago_moneda (id, moneda, cotizacion) VALUES
-(2, 'ARS', 1.0);
+(2, 4, 1.0);
 
 INSERT INTO pago_cheque (id, numero, banco, plaza, fecha_cobro) VALUES
 (3, 'CH-001234', 'Banco Nacion', 'Santa Fe', '2026-03-10');
@@ -114,7 +114,7 @@ INSERT INTO pago (fecha, monto_total, factura_id) VALUES
 ('2026-03-01', 120000.00, 6);
 
 INSERT INTO tipo_pago (importe, metodo_pago, pago_id) VALUES
-(120000.00, 'CHEQUE', 3);
+(120000.00, 3, 3);
 
 INSERT INTO pago_cheque (id, numero, banco, plaza, fecha_cobro) VALUES
 (4, 'CH-005678', 'Banco Santander', 'Rosario', '2026-03-15');
@@ -134,7 +134,7 @@ INSERT INTO pago (fecha, monto_total, factura_id) VALUES
 ('2026-03-02', 85000.00, 7);
 
 INSERT INTO tipo_pago (importe, metodo_pago, pago_id) VALUES
-(85000.00, 'CHEQUE', 4);
+(85000.00, 3, 4);
 
 INSERT INTO pago_cheque (id, numero, banco, plaza, fecha_cobro) VALUES
 (5, 'CH-009012', 'Banco Galicia', 'CABA', '2026-03-20');
@@ -154,7 +154,7 @@ INSERT INTO pago (fecha, monto_total, factura_id) VALUES
 ('2026-03-03', 56000.00, 8);
 
 INSERT INTO tipo_pago (importe, metodo_pago, pago_id) VALUES
-(56000.00, 'CHEQUE', 5);
+(56000.00, 3, 5);
 
 INSERT INTO pago_cheque (id, numero, banco, plaza, fecha_cobro) VALUES
 (6, 'CH-003456', 'Banco HSBC', 'Cordoba', '2026-03-08');
@@ -173,8 +173,8 @@ INSERT INTO pago (fecha, monto_total, factura_id) VALUES
 ('2026-03-04', 66000.00, 9);
 
 INSERT INTO tipo_pago (importe, metodo_pago, pago_id) VALUES
-(36000.00, 'CHEQUE', 6),
-(30000.00, 'CHEQUE', 6);
+(36000.00, 3, 6),
+(30000.00, 3, 6);
 
 INSERT INTO pago_cheque (id, numero, banco, plaza, fecha_cobro) VALUES
 (7, 'CH-007890', 'Banco Provincia', 'La Plata', '2026-03-12'),
@@ -197,11 +197,11 @@ INSERT INTO pago (fecha, monto_total, factura_id) VALUES
 ('2026-03-04', 116000.00, 10);
 
 INSERT INTO tipo_pago (importe, metodo_pago, pago_id) VALUES
-(80000.00, 'TARJETA_CREDITO', 7),
-(36000.00, 'MONEDA', 7);
+(80000.00, 1, 7),
+(36000.00, 0, 7);
 
 INSERT INTO pago_tarjeta_credito (id, numero_tarjeta, nombre_titular, fecha_vencimiento, codigo_seguridad) VALUES
 (9, '5412000033334444', 'JOAO SILVA', '2027-12-01', '789');
 
 INSERT INTO pago_moneda (id, moneda, cotizacion) VALUES
-(10, 'USD', 1200.00);
+(10, 0, 1200.00);
