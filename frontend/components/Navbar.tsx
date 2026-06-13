@@ -54,6 +54,24 @@ export default function Navbar() {
             >
               Listados
             </Link>
+            <Link
+              href="/precios/cotizar"
+              className="transition-colors hover:text-slate-900 text-slate-600"
+            >
+              Cotizar
+            </Link>
+            <Link
+              href="/precios/reglas"
+              className="transition-colors hover:text-slate-900 text-slate-600"
+            >
+              Reglas de Precio
+            </Link>
+            <Link
+              href="/portal/generar"
+              className="transition-colors hover:text-slate-900 text-slate-600"
+            >
+              Portal QR
+            </Link>
           </nav>
         </div>
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
