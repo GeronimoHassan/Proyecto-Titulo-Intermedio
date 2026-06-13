@@ -1,7 +1,8 @@
 import axios from 'axios';
 import { Huesped, UsuarioDTO, PersonaJuridicaDTO, BusquedaResponsablePagoDTO, ConsumoDTO, DatosFacturaDTO, FacturaDTO, TipoPagoDTO, ResponsablePagoDTO, BusquedaFacturaResponsableDTO, NotaCredito } from '../types';
 
-const API_URL = 'http://localhost:8080/api';
+const baseURL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8080';
+const API_URL = `${baseURL}/api`;
 
 const api = axios.create({
   baseURL: API_URL,
