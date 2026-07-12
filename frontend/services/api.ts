@@ -193,56 +193,6 @@ export const notaCreditoService = {
   }
 };
 
-export interface ReglaPrecioDTO {
-  id?: number;
-  nombre: string;
-  descripcion: string;
-  tipo: string;
-  multiplicador: number;
-  umbralOcupacion?: number | null;
-  fechaDesde?: string | null;
-  fechaHasta?: string | null;
-  minNoches?: number | null;
-  activa: boolean;
-  prioridad: number;
-}
-
-export interface CotizacionResponseDTO {
-  numeroHabitacion: string;
-  categoria: string;
-  precioNocheBase: number;
-  precioNocheAjustado: number;
-  noches: number;
-  totalFinal: number;
-  porcentajeOcupacion: number;
-  reglasAplicadas: string[];
-}
-
-export const precioService = {
-  cotizar: async (numeroHabitacion: string, desde: string, hasta: string) => {
-    const response = await api.get<CotizacionResponseDTO>(`/precios/cotizar/${numeroHabitacion}`, {
-      params: { desde, hasta },
-    });
-    return response.data;
-  },
-  listarReglas: async () => {
-    const response = await api.get<ReglaPrecioDTO[]>('/precios/reglas');
-    return response.data;
-  },
-  crearRegla: async (regla: ReglaPrecioDTO) => {
-    const response = await api.post<ReglaPrecioDTO>('/precios/reglas', regla);
-    return response.data;
-  },
-  activar: async (id: number) => {
-    const response = await api.patch<ReglaPrecioDTO>(`/precios/reglas/${id}/activar`);
-    return response.data;
-  },
-  desactivar: async (id: number) => {
-    const response = await api.patch<ReglaPrecioDTO>(`/precios/reglas/${id}/desactivar`);
-    return response.data;
-  },
-};
-
 export interface ConsumoPortalDTO {
   descripcion: string;
   monto: number;
